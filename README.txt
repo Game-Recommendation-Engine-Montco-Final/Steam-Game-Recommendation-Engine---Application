@@ -4,28 +4,36 @@
 
 ## Modules
 
-
+* pandas 1.2.3
+* PySimpleGUI 4.40.0
+* scikit_learn 0.24.2
 
 ## Installation
+
 
 
 ## Usage
 
 
 
+
 ## Contributing
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
 # Authors
 
-    assim Guetiteni
+This program was created by:
 
-    Akash Shah
+Nassim Guetiteni
 
-    Quang Bui   
+Akash Shah
+
+Quang Bui   
 
 
 ## License
+
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
