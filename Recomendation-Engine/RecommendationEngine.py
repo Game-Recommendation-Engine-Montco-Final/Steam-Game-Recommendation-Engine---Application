@@ -4,9 +4,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
 #gives path to access CSV file containing steam data
-url = 'https://drive.google.com/file/d/1_skLvOKWQtq4c3x2aZtz1HlJeIxtQeon/view'
+url = 'https://drive.google.com/file/d/1qrvArX7jJ8uMztFFAcr7-3eFUXALKZjK/view'
 path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
-ds = pd.read_csv(path)
+ds = pd.read_csv(path, encoding= 'ISO-8859-1')
 
 '''
 Transforms text to feature vectors that can be used as input to estimator

@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['RecommendationEngine.py'],
-             pathex=['F:\\Users\\nmexu\\Downloads\\Python-Engine-main\\Python-Engine-main\\finalbuild'],
+             pathex=['C:\\Users\\nmexu\\Documents\\GitHub\\Game-Recommendation-Engine---Application\\Recomendation-Engine'],
              binaries=[],
              datas=[],
              hiddenimports=[],
