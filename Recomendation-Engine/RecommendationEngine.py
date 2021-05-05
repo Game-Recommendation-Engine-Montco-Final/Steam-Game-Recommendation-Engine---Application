@@ -104,9 +104,12 @@ def recommend(item_id, num):
         * Prices
         * Review ratings
     '''
-    sg.popup_scrolled("Recommending " + str(num) + " products similar to " + item(item_id) + "...\n" + "------------------------------------------------------------------------------------------------------------------------------------------------\n"
-    , *recommended_list, size=(80, 15),title="Recommended Games", font='10')
+    sg.popup_scrolled("Recommending " + str(num) + " products similar to " + item(item_id) + "...\n" + "---------------------------------------------------------------------------------------------------------------------------------------\n"
+    , *recommended_list, size=(75, 15),title="Recommended Games", font='10')
     
+
+    # Clears the recommended games from the list
+    recommended_list.clear()
 
 
 #Determines number of games recommmended per game inputted (default set to 10)
