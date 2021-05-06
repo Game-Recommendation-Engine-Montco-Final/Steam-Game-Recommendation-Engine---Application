@@ -3,13 +3,13 @@ import PySimpleGUI as sg
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
-
-
-#gives path to access CSV file containing steam data
+# Creates a path to access the CSV file containing the steam data
+# Reads the path to make the CSV file usable
 url = 'https://drive.google.com/file/d/1qrvArX7jJ8uMztFFAcr7-3eFUXALKZjK/view'
 path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
 ds = pd.read_csv(path, encoding= 'ISO-8859-1')
 
+# Credit to Nikita Sharma for the content-based filter
 
 # Transforms text to feature vectors that can be used as input to estimator
 # TF-IDF stands for Term Frequency - Inverse Document Frequency is a statistic used 
@@ -20,7 +20,7 @@ ds = pd.read_csv(path, encoding= 'ISO-8859-1')
 tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 1), min_df=0, stop_words='english')
 tfidf_matrix = tf.fit_transform(ds['tags'])
 
-#Measures the similarity between two vectors and the distance between them, used to measaure similarity in text anylysis
+# Measures the similarity between two vectors and the distance between them, used to measaure similarity in text anylysis
 cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
 
 # Creates an empty list for the results of the filter
@@ -32,12 +32,11 @@ for idx, row in ds.iterrows():
     similar_indices = cosine_similarities[idx].argsort()[:-100:-1]
     similar_items = [(cosine_similarities[idx][i], ds['appid'][i]) for i in similar_indices]
     results[row['appid']] = similar_items[1:]
-    
 
 def item(appid):
 
     '''
-    Gets the appid for the current game.
+    Gets the appid for the current game and adds the corresponding name to the list
 
     Parameters:
     ===========
@@ -48,12 +47,10 @@ def item(appid):
         appid : The appid of the current game.
     '''
 
-
     return ds.loc[ds['appid'] == appid]['name'].tolist()[0]
 
 # Calls the gui program for the user input
 import gui
-
 
 # Creates empty lists
 review_list2 = []
@@ -61,7 +58,6 @@ price_list2 = []
 game_list2 = []
 tup_list = []
 recommended_list = []
-
 
 def recommend(item_id, num):
 
@@ -75,7 +71,6 @@ def recommend(item_id, num):
         num (int): The number of the current game.
     '''
    
-
     recs = results[item_id][:num]
     for rec in recs:
         game_list2.append(item(rec[1]))
@@ -122,10 +117,7 @@ def recommend(item_id, num):
         review_list2.clear()
         tup_list.clear()
 
-
-
-    
-    #Prints out the results in order of:
+    # Prints out the results in order of:
     # * Recommended games
     # * Prices
     # * Review ratings
@@ -133,12 +125,10 @@ def recommend(item_id, num):
     sg.popup_scrolled("Recommending " + str(num) + " products similar to " + item(item_id) + "...\n" + "---------------------------------------------------------------------------------------------------------------------------------------\n"
     , *recommended_list, size=(75, 15),title="Recommended Games", font='10')
     
-
     # Clears the recommended games from the list
     recommended_list.clear()
 
-
-#Determines number of games recommmended per game inputted (default set to 10)
+# Determines number of games recommmended per game inputted (default set to 10)
 # Calls the recommend function to publish the games in the pop-up window
 for i in range(len(gui.appid_list)):
     recommend(item_id=(gui.appid_list[i]), num=10)
