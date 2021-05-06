@@ -3,18 +3,20 @@ import PySimpleGUI as sg
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
+
+
 #gives path to access CSV file containing steam data
 url = 'https://drive.google.com/file/d/1qrvArX7jJ8uMztFFAcr7-3eFUXALKZjK/view'
 path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
 ds = pd.read_csv(path, encoding= 'ISO-8859-1')
 
-'''
-Transforms text to feature vectors that can be used as input to estimator
-TF-IDF stands for Term Frequency - Inverse Document Frequency is a statistic used 
-to better define how important a word is for a document by looking at how many times 
-a word appears into a document while also paying attention to 
-how many times the same word appears in other documents
-'''
+
+# Transforms text to feature vectors that can be used as input to estimator
+# TF-IDF stands for Term Frequency - Inverse Document Frequency is a statistic used 
+# to better define how important a word is for a document by looking at how many times 
+# a word appears into a document while also paying attention to 
+# how many times the same word appears in other documents
+
 tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 1), min_df=0, stop_words='english')
 tfidf_matrix = tf.fit_transform(ds['tags'])
 
@@ -31,9 +33,22 @@ for idx, row in ds.iterrows():
     similar_items = [(cosine_similarities[idx][i], ds['appid'][i]) for i in similar_indices]
     results[row['appid']] = similar_items[1:]
     
-#print('done!')
 
 def item(appid):
+
+    '''
+    Gets the appid for the current game.
+
+    Parameters:
+    ===========
+        appid (str) : The appid of the current game.
+
+    Returns:
+    ========
+        appid : The appid of the current game.
+    '''
+
+
     return ds.loc[ds['appid'] == appid]['name'].tolist()[0]
 
 # Calls the gui program for the user input
@@ -48,12 +63,23 @@ tup_list = []
 recommended_list = []
 
 
-# Just reads the results out of the dictionary
 def recommend(item_id, num):
+
+    '''
+    Reads the results out of the dictionary.
+
+    Parameters:
+    ===========
+        item_id (str) : The appid of the current game.
+
+        num (int): The number of the current game.
+    '''
+   
+
     recs = results[item_id][:num]
     for rec in recs:
         game_list2.append(item(rec[1]))
-
+        
         # Checks the game being recommended to every game in the csv file to find the price and review rating
         # Once the price and review rating are found, they will be added to the list
         for i in range(len(game_list2)):
@@ -98,12 +124,12 @@ def recommend(item_id, num):
 
 
 
-    '''
-    Prints out the results in order of:
-        * Recommended games
-        * Prices
-        * Review ratings
-    '''
+    
+    #Prints out the results in order of:
+    # * Recommended games
+    # * Prices
+    # * Review ratings
+
     sg.popup_scrolled("Recommending " + str(num) + " products similar to " + item(item_id) + "...\n" + "---------------------------------------------------------------------------------------------------------------------------------------\n"
     , *recommended_list, size=(75, 15),title="Recommended Games", font='10')
     

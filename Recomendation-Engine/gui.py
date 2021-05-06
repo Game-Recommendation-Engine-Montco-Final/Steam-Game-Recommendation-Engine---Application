@@ -6,7 +6,7 @@ url = 'https://drive.google.com/file/d/1qrvArX7jJ8uMztFFAcr7-3eFUXALKZjK/view'
 path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
 ds = pd.read_csv(path, encoding= 'ISO-8859-1')
 
-# Creates an empty list
+
 games_list = []
 appid_list = []
 
@@ -55,14 +55,14 @@ while i < n:
             i+=1
             break
 
-# Tells the user that the games have all been accepted and that their recommended games are ready
+
 sg.popup_ok('Results Ready', title="Games Accepted", auto_close=True, auto_close_duration=3) # Set duration in case user does not click the button
 
-'''
-Appends the appid of the inputted games to the appid list
-Double checks all of the games the user entered with the games in the csv file
-Skips the game the user entered if it is not found in the database
-'''
+
+#Appends the appid of the inputted games to the appid list
+#Double checks all of the games the user entered with the games in the csv file
+#Skips the game the user entered if it is not found in the database
+
 for i in range(len(games_list)):
     for j in range(len(ds.name)):
         if games_list[i] != ds.name[j]:

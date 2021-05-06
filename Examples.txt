@@ -1,0 +1,11 @@
+
+Games you can use to test out the Recomendation Engine:
+
+* "Left 4 Dead"
+* "Half-Life 2"
+* "Among us"
+* "Cyberpunk 2077"
+* "Resident Evil"
+* "Hades"
+* "Terraria"
+
