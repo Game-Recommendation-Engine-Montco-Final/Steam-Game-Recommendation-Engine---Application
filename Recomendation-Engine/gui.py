@@ -1,12 +1,13 @@
 import pandas as pd
 import PySimpleGUI as sg
 
-# Gives path to access CSV file containing steam data
+# Creates a path to access the CSV file containing the steam data
+# Reads the path to make the CSV file usable
 url = 'https://drive.google.com/file/d/1qrvArX7jJ8uMztFFAcr7-3eFUXALKZjK/view'
 path = 'https://drive.google.com/uc?export=download&id=' + url.split('/')[-2]
 ds = pd.read_csv(path, encoding= 'ISO-8859-1')
 
-
+# Creates empty lists
 games_list = []
 appid_list = []
 
@@ -21,7 +22,7 @@ while True:
     try:
         n = int(sg.popup_get_text('Please enter the number of games you want to add: ', title="Steam Game Recommender", size=(80,None), font= '10'))
 
-        #If the user enters a number outside the range (1-3), they will be prompted with a error and be asked to try again
+        # If the user enters a number outside the range (1-3), they will be prompted with an error and be asked to try again
         if n < 1 or n > 3:
             raise ValueError
         break
@@ -38,14 +39,16 @@ while i < n:
 
     # For loop to store the game name(s) from user input in game list
     for x in range(len(ds.name)):
+        
+        # Closes the popup if the user closes or cancels the program
         if game == sg.WIN_CLOSED or game == 'Cancel':
             sys.exit(0)     
 
-        # Checks to see if the game exists within the database, if the game isnt found it prompts the user with a error and asks for a new name
+        # Checks to see if the game exists within the database, if the game is not found it prompts the user with a error and asks for a new name
         if game != ds.name[x]:
             x+=1
             if x >= len(ds.name):
-                sg.popup_error('Invalid Game Entered\n\n Returning to previous page', auto_close=True, auto_close_duration=3) # Sets duration in case user does not click the button
+                sg.popup_error('Invalid Game Entered\n\n Returning to previous page', auto_close=True, auto_close_duration=3) # Sets the duration in case the user does not click the button
                 x = 0
 
         # If the game is found within the database, it is appended to the games list
@@ -55,14 +58,12 @@ while i < n:
             i+=1
             break
 
+# Tells the user that all of the games are accepted 
+sg.popup_ok('Results Ready', title="Games Accepted", auto_close=True, auto_close_duration=3) # Sets the duration in case the user does not click the button
 
-sg.popup_ok('Results Ready', title="Games Accepted", auto_close=True, auto_close_duration=3) # Set duration in case user does not click the button
-
-
-#Appends the appid of the inputted games to the appid list
-#Double checks all of the games the user entered with the games in the csv file
-#Skips the game the user entered if it is not found in the database
-
+# Double checks all of the games the user entered with the games in the csv file
+# Appends the appid of the inputted games to the appid list
+# Skips the game the user entered if it is not found in the database
 for i in range(len(games_list)):
     for j in range(len(ds.name)):
         if games_list[i] != ds.name[j]:
