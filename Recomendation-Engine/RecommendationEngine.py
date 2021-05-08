@@ -27,7 +27,7 @@ cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
 results = {}
 
 # Sorts the similarities between the games the user entered and the games in the csv file
-# Adds the appid of the game that is going to be recommended to the array
+# Adds the appid of the game that is used to recommended to the array
 for idx, row in ds.iterrows():
     similar_indices = cosine_similarities[idx].argsort()[:-100:-1]
     similar_items = [(cosine_similarities[idx][i], ds['appid'][i]) for i in similar_indices]
@@ -71,6 +71,7 @@ def recommend(item_id, num):
         num (int): The number of the current game.
     '''
    
+    #for loop to add the appid of the current game to game list 2
     recs = results[item_id][:num]
     for rec in recs:
         game_list2.append(item(rec[1]))
